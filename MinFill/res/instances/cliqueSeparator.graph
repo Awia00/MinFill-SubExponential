@@ -1,0 +1,32 @@
+0 1
+1 2
+0 2 // end of clique
+3 0 // start of first component
+3 4
+4 5
+5 6
+6 7
+7 3
+5 8
+8 9
+9 10
+10 6
+11 12
+12 9
+4 11
+10 2 // end of first component
+13 0 // start of second component
+13 14
+14 15
+15 16
+16 17
+17 13
+15 18
+18 19
+19 110
+110 16
+110 120
+120 19
+14 120
+18 1
+110 2 // end of second component
