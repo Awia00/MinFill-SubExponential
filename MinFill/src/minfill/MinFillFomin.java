@@ -112,19 +112,19 @@ public class MinFillFomin<T extends Comparable<T>> {
         // shortcuts
         Set<Set<T>> piI;
         int maxSubsetSize = (int)(5*Math.sqrt(k)+5); // 5 is magic value, theoretically should be 2 or 3
-        if(maxSubsetSize > gPrime.getVertices().size() && gPrime.getVertices().size() < 16) {
+        if(maxSubsetSize > gPrime.getVertices().size() && gPrime.getVertices().size() < 16) { // for small subsets and small values of k it might be smarter to just check vertex subsets
             IO.println("Shortcut for vital potential maximum clique taken");
             piI = exhaustiveVitalPotentialMaximalCliqueSearch(gPrime, k);
         }
-        else if(k<12) {
+        else if(k <= 10) { // simple but fast algorithm for low values of k
             IO.println("Shortcut 'search tree' taken");
             return MinFillSearchTree.minFillSearchTree(g, k);
         }
-        else if(true) {
+        else if(k < 100) { // polynomial for each (potentially exponential) minimal separator.
             IO.println("Shortcut 'minimal separator for cliques' taken");
             piI = todincaVitalPotentialMaximalCliqueSearch(gPrime, k);
         }
-        else // Straight up Fomin
+        else // Sub exponential: Fomin
             piI = generateVitalPotentialMaximalCliques(gPrime, k);
 
         return stepC(g, k, piI);
@@ -219,7 +219,7 @@ public class MinFillFomin<T extends Comparable<T>> {
         // enumerate quasi-cliques. (Step 1)
         Iterable<Set<T>> vitalQuasiCliques = new FilterIterable<>(
                 new PotentialQuasiCliqueIterable<>(g, k),
-                t -> !vitalPotentialMaximalCliques.contains(t) && g.isVitalPotentialMaximalClique(t, k)
+                t -> !vitalPotentialMaximalCliques.contains(t) && g.isVitalPotentialMaximalClique(t, k) // predicate for potential quasi cliques.
         );
         for (Set<T> vitalPotentialMaxClique : vitalQuasiCliques) {
             vitalPotentialMaximalCliques.add(vitalPotentialMaxClique);
@@ -234,7 +234,7 @@ public class MinFillFomin<T extends Comparable<T>> {
                 Graph<T> h = g.addEdges(fill);
                 vitalQuasiCliques = new FilterIterable<>(
                         new PotentialQuasiCliqueIterable<>(h, k),
-                        t -> !vitalPotentialMaximalCliques.contains(t) && g.isVitalPotentialMaximalClique(t, k)
+                        t -> !vitalPotentialMaximalCliques.contains(t) && g.isVitalPotentialMaximalClique(t, k) // predicate for potential quasi cliques.
                 );
                 for (Set<T> vitalPotentialMaxClique : vitalQuasiCliques) {
                     vitalPotentialMaximalCliques.add(vitalPotentialMaxClique);
