@@ -13,7 +13,7 @@ public interface Graph<T extends Comparable<T>> {
     Set<T> getVertices();
 
     @Contract(pure = true)
-    Neighborhood<T> neighborhood(T n);
+    Set<T> neighborhood(T n);
 
     @Contract(pure = true)
     Graph<T> removeEdges(Set<Edge<T>> edges);
@@ -23,7 +23,7 @@ public interface Graph<T extends Comparable<T>> {
         Set<T> neighborhood = Set.empty();
 
         for (T vertex : vertices) {
-            neighborhood = neighborhood.union(neighborhood(vertex).toSet().minus(vertices));
+            neighborhood = neighborhood.union(neighborhood(vertex).minus(vertices));
         }
 
         return neighborhood.minus(vertices);
@@ -310,7 +310,7 @@ public interface Graph<T extends Comparable<T>> {
 
     @Contract(pure = true)
     default Set<T> mAdj(List<T> peo, int index) {
-        Set<T> neighborhood = neighborhood(peo.get(index)).toSet();
+        Set<T> neighborhood = neighborhood(peo.get(index));
         return neighborhood.intersect(
                 Set.of(
                         peo.subList(index + 1, peo.size())
@@ -429,7 +429,7 @@ public interface Graph<T extends Comparable<T>> {
     // N_(x) = {x’ | x’ < x},
     // N+(x) = N(x) - N_(x).
     default Set<T> nPlus(T x, Set<Set<T>> sMinus) {
-        Set<T> nPlus = neighborhood(x).toSet();
+        Set<T> nPlus = neighborhood(x);
         for (Set<T> minus : sMinus) {
             nPlus = nPlus.minus(minus);
         }
@@ -447,7 +447,7 @@ public interface Graph<T extends Comparable<T>> {
     }
 
     default Set<Set<T>> minimalSeparators(T a, T b){
-        Set<T> Na = neighborhood(a).toSet();
+        Set<T> Na = neighborhood(a);
         Set<T> Cb = inducedBy(getVertices().minus(Na)).componentWithB(b).get();
 
         Map<Integer, Set<Set<T>>> lk = new HashMap<>();
@@ -457,7 +457,7 @@ public interface Graph<T extends Comparable<T>> {
 
         while(k <= getVertices().size()-3 && !Cb.isEmpty() && lk.containsKey(k)){
             for (Set<T> s : lk.get(k)) {
-                for (T x : s.minus(neighborhood(b).toSet())) {
+                for (T x : s.minus(neighborhood(b))) {
                     Set<T> nPlus = nPlus(x, lk.get(k));
                     Set<T> s_nPlus = s.union(nPlus);
                     Cb =  inducedBy(getVertices().minus(s_nPlus)).componentWithB(b).get();

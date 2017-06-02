@@ -11,9 +11,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 
-/**
- * Created by aws on 25-04-2017.
- */
 public class MinFillPolynomialReducer<T extends Comparable<T>> {
 
     public Set<T> findRemovableVertices(Graph<T> g) {
@@ -24,8 +21,8 @@ public class MinFillPolynomialReducer<T extends Comparable<T>> {
         while(hasChanged){
             hasChanged = false;
             for (T integer : gPrime.getVertices()) {
-                Set<T> neighborhood = gPrime.neighborhood(integer).toSet();
-                if (gPrime.neighborhood(integer).toSet().size() == gPrime.getVertices().size() - 1) { // check if universal
+                Set<T> neighborhood = gPrime.neighborhood(integer);
+                if (gPrime.neighborhood(integer).size() == gPrime.getVertices().size() - 1) { // check if universal
                     result.add(integer);
                     gPrime = gPrime.inducedBy(gPrime.getVertices().remove(integer));
 
@@ -75,14 +72,14 @@ public class MinFillPolynomialReducer<T extends Comparable<T>> {
             hasChanged = false;
             for (List<T> cycle : g.findChordlessCycles()) {
                 for (T u : cycle) {
-                    Set<T> neighbourhood = g.neighborhood(u).toSet();
+                    Set<T> neighbourhood = g.neighborhood(u);
                     if(neighbourhood.size() == 2){
                         ArrayList<T> neighbourhoodList = new ArrayList<>();
                         for (T vertex : neighbourhood) {
                             neighbourhoodList.add(vertex);
                         }
 
-                        if(g.neighborhood(neighbourhoodList.get(0)).toSet().size() == 2 || g.neighborhood(neighbourhoodList.get(1)).toSet().size() == 2){
+                        if(g.neighborhood(neighbourhoodList.get(0)).size() == 2 || g.neighborhood(neighbourhoodList.get(1)).size() == 2){
                             Edge<T> edge = new Edge<>(neighbourhoodList.get(0), neighbourhoodList.get(1));
                             result = result.add(edge);
                             g = g.addEdge(edge);

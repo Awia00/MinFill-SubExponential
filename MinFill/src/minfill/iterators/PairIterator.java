@@ -8,9 +8,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
 
-/**
- * Created by aws on 19-04-2017.
- */
 public class PairIterator<T extends Comparable<T>> implements Iterator<Pair<T,T>> {
     private List<T> source;
     private int outerIndex = 0, innerIndex = 1;

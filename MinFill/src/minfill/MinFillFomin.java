@@ -54,7 +54,7 @@ public class MinFillFomin<T extends Comparable<T>> {
             // See the proof of Lemma 3.2.
 
             // X = N(u) union N(v)
-            Set<T> x = g.neighborhood(u).toSet().intersect(g.neighborhood(v).toSet());
+            Set<T> x = g.neighborhood(u).intersect(g.neighborhood(v));
 
             // W = V(G)\{u,v} such that every vertex is nonadjacent to at least h getVertices of x.
             Set<T> w = Set.empty();
@@ -63,7 +63,7 @@ public class MinFillFomin<T extends Comparable<T>> {
                 if (vertex == u || vertex == v) continue;
 
                 // vertex is nonadjacent to at least h getVertices of X.
-                if (x.minus(g.neighborhood(vertex).toSet()).size() >= h) {
+                if (x.minus(g.neighborhood(vertex)).size() >= h) {
                     w = w.add(vertex);
                 }
             }
@@ -229,7 +229,7 @@ public class MinFillFomin<T extends Comparable<T>> {
 
         // step 3 of generating vital potential maximal cliques
         for (T vertex : g.getVertices()) {
-            Set<Edge<T>> fill = g.cliqueify(g.neighborhood(vertex).toSet());
+            Set<Edge<T>> fill = g.cliqueify(g.neighborhood(vertex));
             if(!fill.isEmpty()) {
                 Graph<T> h = g.addEdges(fill);
                 vitalQuasiCliques = new FilterIterable<>(

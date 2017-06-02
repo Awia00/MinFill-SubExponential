@@ -10,9 +10,6 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Optional;
 
-/**
- * Created by aws on 08-05-2017.
- */
 public class MinFillSearchTree {
     private static int
             memoizerCounter,

@@ -5,9 +5,6 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Iterator;
 
-/**
- * Created by aws on 19-04-2017.
- */
 public class PotentialQuasiCliqueIterable<T extends Comparable<T>> implements Iterable<Set<T>> {
     private final Graph<T> g;
     private final int k;
@@ -20,6 +17,6 @@ public class PotentialQuasiCliqueIterable<T extends Comparable<T>> implements It
     @NotNull
     @Override
     public Iterator<Set<T>> iterator() {
-        return new PotentialQuasiCliqueIterator(g, k);
+        return new PotentialQuasiCliqueIterator<>(g, k);
     }
 }

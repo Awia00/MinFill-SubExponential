@@ -6,9 +6,6 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Iterator;
 
-/**
- * Created by aws on 19-04-2017.
- */
 public class PairIterable<T extends Comparable<T>> implements Iterable<Pair<T,T>> {
     private final Set<T> source;
 

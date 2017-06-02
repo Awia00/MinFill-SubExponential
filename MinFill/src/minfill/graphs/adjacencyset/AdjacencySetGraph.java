@@ -3,7 +3,6 @@ package minfill.graphs.adjacencyset;
 import minfill.graphs.ChordalGraph;
 import minfill.graphs.Edge;
 import minfill.graphs.Graph;
-import minfill.graphs.Neighborhood;
 import minfill.sets.Set;
 import org.jetbrains.annotations.Contract;
 
@@ -45,9 +44,9 @@ public class AdjacencySetGraph<T extends Comparable<T>> implements Graph<T> {
 
     @Override
     @Contract(pure = true)
-    public Neighborhood<T> neighborhood(T n) {
+    public Set<T> neighborhood(T n) {
         assert vertices.contains(n);
-        return new AdjacencySetNeighborhood<>(neighborhoods.get(n));
+        return neighborhoods.get(n);
     }
 
     @Override
@@ -117,7 +116,7 @@ public class AdjacencySetGraph<T extends Comparable<T>> implements Graph<T> {
             Map<T, Set<T>> copy = new HashMap<>();
 
             for (T vertex : vertices) {
-                copy.put(vertex, neighborhood(vertex).toSet().intersect(vertices));
+                copy.put(vertex, neighborhood(vertex).intersect(vertices));
             }
 
             return new AdjacencySetGraph<>(vertices, copy);

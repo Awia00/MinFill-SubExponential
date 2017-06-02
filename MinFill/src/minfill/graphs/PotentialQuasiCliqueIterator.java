@@ -5,9 +5,6 @@ import minfill.sets.Set;
 
 import java.util.*;
 
-/**
- * Created by aws on 19-04-2017.
- */
 public class PotentialQuasiCliqueIterator<T extends Comparable<T>> implements Iterator<Set<T>> {
     private final Graph<T> g;
     private final Iterator<Set<T>> vertexSubsets;

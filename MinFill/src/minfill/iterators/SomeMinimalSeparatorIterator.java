@@ -30,7 +30,7 @@ public class SomeMinimalSeparatorIterator<T extends Comparable<T>> implements It
             while (bVertices.hasNext()) {
                 T b = bVertices.next();
                 if(!g.isAdjacent(a,b)){
-                    Set<T> nA = g.neighborhood(a).toSet();
+                    Set<T> nA = g.neighborhood(a);
                     Optional<Set<T>> cB = g.inducedBy(g.getVertices().minus(nA)).componentWithB(b);
                     assert cB.isPresent();
                     Set<T> s = nA.minus(g.isolatedSet(cB.get(), nA));
