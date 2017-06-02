@@ -13,9 +13,9 @@ import java.io.FileNotFoundException;
 import java.util.Optional;
 
 public class MinFill {
-    private static MinFillKernel<String> kernel = new MinFillKernel<>();
-    private static MinFillPolynomialReducer<String> easySolver = new MinFillPolynomialReducer<>();
-    private static MinFillFomin<String> mfi = new MinFillFomin<>();
+    private static final MinFillKernel<String> kernel = new MinFillKernel<>();
+    private static final MinFillPolynomialReducer<String> easySolver = new MinFillPolynomialReducer<>();
+    private static final MinFillFomin<String> mfi = new MinFillFomin<>();
     private static IO io = new IO();
 
     public static void main(String[] args) throws FileNotFoundException {

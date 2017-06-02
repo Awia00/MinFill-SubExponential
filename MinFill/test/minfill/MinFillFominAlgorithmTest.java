@@ -19,13 +19,12 @@ import java.util.List;
 public class MinFillFominAlgorithmTest {
 
     private static List<String> graphs;
-    private static List<String> badGraphs;
 
     @BeforeAll
     public static void Setup()
     {
         graphs = new ArrayList<>();
-        badGraphs = new ArrayList<>();
+        List<String> badGraphs = new ArrayList<>();
 
         badGraphs.add("1.graph"); // minfill.kernel takes long time
         badGraphs.add("2.graph"); // k = 12
@@ -100,8 +99,9 @@ public class MinFillFominAlgorithmTest {
 
 
         File folder = new File("res/instances/");
-        if(folder.listFiles() != null){
-            for (File fileEntry : folder.listFiles()) {
+        File[] files = folder.listFiles();
+        if(files != null){
+            for (File fileEntry : files) {
                 String fileName = fileEntry.getName();
                 if (!fileEntry.isDirectory() && !badGraphs.contains(fileName) && fileName.endsWith(".graph"))
                     graphs.add(fileEntry.toString());

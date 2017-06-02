@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 class EmptySetTest {
-    private Set<Object> instance = EmptySet.instance();
+    private final Set<Object> instance = EmptySet.instance();
 
     @Test
     void isEmpty() {

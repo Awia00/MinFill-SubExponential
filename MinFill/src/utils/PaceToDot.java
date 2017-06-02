@@ -14,14 +14,14 @@ public class PaceToDot {
     }
 
     public static String generateFromStream(InputStream stream){
-        String result = "Graph g {\n";
+        StringBuilder result = new StringBuilder("Graph g {\n");
         try (Scanner scanner = new Scanner(stream)) {
             while (scanner.hasNextLine()) {
                 String line = scanner.nextLine();
 
                 String[] split = line.split(" ");
 
-                result += String.format("\t%s--%s\n", split[0], split[1]);
+                result.append(String.format("\t%s--%s\n", split[0], split[1]));
             }
         }
         return result + "}";

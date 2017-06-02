@@ -51,11 +51,18 @@ public class MinFillPolynomialReducer<T extends Comparable<T>> {
         return Set.of(result);
     }
 
+    private static final boolean enableStep4 = false;
     public Set<Edge<T>> findSafeEdges(Graph<T> g){
         Set<Edge<T>> step1 = independentSimpleCycleReduction(g);
         Set<Edge<T>> step2 = nonIndependentSimpleCycleReducer(g.addEdges(step1));
-        Set<Edge<T>> step3 = Set.empty();//firstLevelMinimalSeparatorsAlmostCliquesReducer(g.addEdges(step2.union(step1)));
-        Set<Edge<T>> step4 = higherLevelMinimalSeparatorsAlmostCliquesReducer(g.addEdges(step3.union(step2).union(step1)));
+        Set<Edge<T>> step3 = firstLevelMinimalSeparatorsAlmostCliquesReducer(g.addEdges(step2.union(step1)));
+
+        Set<Edge<T>> step4 = Set.empty();
+
+        // This is an exponential step. :-(
+        if (enableStep4) {
+            step4 = higherLevelMinimalSeparatorsAlmostCliquesReducer(g.addEdges(step3.union(step2).union(step1)));
+        }
 
         //IO.println("MinSep: " + step3.size());
         return step1.union(step2).union(step3).union(step4);

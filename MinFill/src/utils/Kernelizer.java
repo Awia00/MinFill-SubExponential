@@ -12,7 +12,7 @@ import java.io.IOException;
 import java.util.Optional;
 
 public class Kernelizer<T extends Comparable<T>> {
-    private MinFillKernel<T> kernel = new MinFillKernel<>();
+    private final MinFillKernel<T> kernel = new MinFillKernel<>();
 
     public static void main(String[] args) throws IOException {
         try (IO io = new IO(Util.getInput(args))) {

@@ -2,7 +2,6 @@ package minfill;
 
 import minfill.graphs.*;
 import minfill.iterators.FilterIterable;
-import minfill.graphs.PotentialQuasiCliqueIterable;
 import minfill.sets.ImmutableSet;
 import minfill.sets.Set;
 import minfill.tuples.Pair;
@@ -12,7 +11,7 @@ import java.util.*;
 import java.util.concurrent.atomic.LongAdder;
 
 public class MinFillFomin<T extends Comparable<T>> {
-    public static LongAdder memoizerHits = new LongAdder();
+    public static final LongAdder memoizerHits = new LongAdder();
 
     @Contract(pure = true)
     public Optional<Graph<T>> stepB1(Graph<T> g, int k) {
@@ -102,19 +101,15 @@ public class MinFillFomin<T extends Comparable<T>> {
     }
 
     @Contract(pure = true)
-    public Optional<Graph<T>> stepB2(Graph<T> g, int k) {
+    public Optional<Graph<T>> stepB2(final Graph<T> g, final int k) {
         IO.printf("Step B2: Non-reducible instance found. k=%d\n", k);
-        Graph<T> gPrime = g;
-
-        // reduction
-
 
         // shortcuts
         Set<Set<T>> piI;
         int maxSubsetSize = (int)(5*Math.sqrt(k)+5); // 5 is magic value, theoretically should be 2 or 3
-        if(maxSubsetSize > gPrime.getVertices().size() && gPrime.getVertices().size() < 16) { // for small subsets and small values of k it might be smarter to just check vertex subsets
+        if(maxSubsetSize > g.getVertices().size() && g.getVertices().size() < 16) { // for small subsets and small values of k it might be smarter to just check vertex subsets
             IO.println("Shortcut for vital potential maximum clique taken");
-            piI = exhaustiveVitalPotentialMaximalCliqueSearch(gPrime, k);
+            piI = exhaustiveVitalPotentialMaximalCliqueSearch(g, k);
         }
         else if(k <= 10) { // simple but fast algorithm for low values of k
             IO.println("Shortcut 'search tree' taken");
@@ -122,10 +117,10 @@ public class MinFillFomin<T extends Comparable<T>> {
         }
         else if(k < 100) { // polynomial for each (potentially exponential) minimal separator.
             IO.println("Shortcut 'minimal separator for cliques' taken");
-            piI = todincaVitalPotentialMaximalCliqueSearch(gPrime, k);
+            piI = todincaVitalPotentialMaximalCliqueSearch(g, k);
         }
         else // Sub exponential: Fomin
-            piI = generateVitalPotentialMaximalCliques(gPrime, k);
+            piI = generateVitalPotentialMaximalCliques(g, k);
 
         return stepC(g, k, piI);
     }

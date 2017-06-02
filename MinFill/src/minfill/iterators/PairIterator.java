@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Objects;
 
 public class PairIterator<T extends Comparable<T>> implements Iterator<Pair<T,T>> {
-    private List<T> source;
+    private final List<T> source;
     private int outerIndex = 0, innerIndex = 1;
 
     public PairIterator(Set<T> source) {
@@ -38,7 +38,7 @@ public class PairIterator<T extends Comparable<T>> implements Iterator<Pair<T,T>
 
 
     public static void main(String[] args){
-        PairIterator<Integer> iterator = new PairIterator<Integer>(Set.empty());
+        PairIterator<Integer> iterator = new PairIterator<>(Set.<Integer>empty());
         assert(!iterator.hasNext());
 
         iterator = new PairIterator<>(Set.of(1));
